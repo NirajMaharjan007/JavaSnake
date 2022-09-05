@@ -13,7 +13,7 @@ public class MainOperation extends JFrame {
         setResizable(false);
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocation(600, 100);
         add(new OperatingPanel());
         pack();
     }
