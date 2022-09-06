@@ -1,6 +1,9 @@
 package resources.activities;
 
 import javax.swing.*;
+
+import resources.activities.obstacle.Obstacle;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
@@ -24,6 +27,8 @@ public class OperatingPanel extends JPanel implements ActionListener {
 
     Random random = new Random();
 
+    Obstacle o = new Obstacle(width, height, tickSize);
+
     public OperatingPanel() {
         System.out.println("OperatingPanel.OperatingPanel()");
         new Controller();
@@ -45,12 +50,15 @@ public class OperatingPanel extends JPanel implements ActionListener {
             // g.drawLine(i * tickSize, 0, i * tickSize, height);
             // g.drawLine(0, i * tickSize, width, i * tickSize);
             // }
-            g.setColor(Color.BLACK);
-            g.setFont(font);
-            g.drawString("Score: " + count, 250, 50);
 
             drawSnake(g);
             drawApple(g);
+            o.addObstacle(g);
+
+            g.setColor(Color.BLACK);
+            g.setFont(font);
+
+            g.drawString("Score: " + count, 250, 50);
         } else
             gameOver(g);
     }
@@ -58,17 +66,17 @@ public class OperatingPanel extends JPanel implements ActionListener {
     private void drawSnake(Graphics g) {
         for (int i = 0; i < snakeSize; i++) {
             if (i == 0) {
-                g.setColor(Color.green);
+                g.setColor(new Color(0, 180, 0));
                 g.fillRect(snakeX[i], snakeY[i], tickSize, tickSize);
             } else {
-                g.setColor(Color.pink);
+                g.setColor(new Color(100, 236, 100));
                 g.fillRect(snakeX[i], snakeY[i], tickSize, tickSize);
             }
         }
     }
 
     private void drawApple(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.ORANGE);
         g.fillOval(appleX, appleY, tickSize, tickSize);
     }
 
@@ -80,6 +88,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
     protected void checkApple() {
         if (snakeX[0] == appleX && snakeY[0] == appleY) {
             setApple();
+            o.setObstacle();
             count++;
             snakeSize++;
         }
@@ -112,6 +121,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
 
     public void start() {
         setApple();
+        o.setObstacle();
         running = true;
         timer = new Timer(80, this);
         timer.start();
@@ -148,6 +158,9 @@ public class OperatingPanel extends JPanel implements ActionListener {
         for (int i = snakeSize; i > 0; i--)
             if ((snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i]))
                 running = false;
+
+        if (o.isTouchObject(snakeX[0], snakeY[0]))
+            running = false;
 
     }
 
