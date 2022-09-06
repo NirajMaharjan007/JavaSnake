@@ -13,7 +13,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
 
     int[] snakeX = new int[boardSize],
             snakeY = new int[boardSize];
-    int snakeSize = 5;
+    int snakeSize = 4, count = 0;
 
     char direction = 'R';
     boolean running = false;
@@ -44,6 +44,11 @@ public class OperatingPanel extends JPanel implements ActionListener {
             g.drawLine(0, i * tickSize, width, i * tickSize);
         }
 
+        Font font = new Font("Times New Roman", Font.BOLD, 25);
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+        g.drawString("Score: " + count, 250, 50);
+
         drawSnake(g);
         drawApple(g);
     }
@@ -65,9 +70,17 @@ public class OperatingPanel extends JPanel implements ActionListener {
         g.fillOval(appleX, appleY, tickSize, tickSize);
     }
 
-    public void setApple() {
+    protected void setApple() {
         appleX = random.nextInt((int) (width / tickSize)) * tickSize;
         appleY = random.nextInt((int) (height / tickSize)) * tickSize;
+    }
+
+    protected void checkApple() {
+        if (snakeX[0] == appleX && snakeY[0] == appleY) {
+            setApple();
+            count++;
+            snakeSize++;
+        }
     }
 
     protected void move() {
@@ -92,7 +105,6 @@ public class OperatingPanel extends JPanel implements ActionListener {
             case 'R':
                 snakeX[0] += tickSize;
                 break;
-
         }
     }
 
@@ -118,12 +130,17 @@ public class OperatingPanel extends JPanel implements ActionListener {
         if (snakeX[0] < 0)
             snakeX[0] = (width - tickSize);
 
+        for (int i = snakeSize; i > 0; i--)
+            if ((snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i]))
+                running = false;
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
             move();
+            checkApple();
             setCollision();
         }
         repaint();
