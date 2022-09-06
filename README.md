@@ -1,5 +1,4 @@
-# JavaSnake
-# GG
+# JavaSnake GG
 Game from java
 Not Completed..
 going to
