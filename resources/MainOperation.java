@@ -6,8 +6,6 @@ import javax.swing.*;
 
 public class MainOperation extends JFrame {
     public MainOperation() {
-        System.out.println("Operation.Operation()");
-
         setTitle("Snake Game");
         setVisible(true);
         setResizable(false);

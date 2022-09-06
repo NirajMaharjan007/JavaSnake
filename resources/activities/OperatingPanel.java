@@ -30,7 +30,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
     Obstacle o = new Obstacle(width, height, tickSize);
 
     public OperatingPanel() {
-        System.out.println("OperatingPanel.OperatingPanel()");
+
         new Controller();
         start();
         setLayout(new FlowLayout());
@@ -156,11 +156,15 @@ public class OperatingPanel extends JPanel implements ActionListener {
             snakeX[0] = (width - tickSize);
 
         for (int i = snakeSize; i > 0; i--)
-            if ((snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i]))
+            if ((snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i])) {
                 running = false;
+                System.out.println("Hit your head with your BODY");
+            }
 
-        if (o.isTouchObject(snakeX[0], snakeY[0]))
+        if (o.isTouchObject(snakeX[0], snakeY[0])) {
             running = false;
+            System.out.println("Hit with red Colored Obstacle");
+        }
 
     }
 
@@ -183,6 +187,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
             setVisible(true);
             setResizable(true);
             setFocusable(true);
+            setLocation(new Point(200, 300));
             setTitle("Controller");
             setSize(300, 100);
 
