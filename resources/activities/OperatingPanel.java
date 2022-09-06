@@ -3,6 +3,7 @@ package resources.activities;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class OperatingPanel extends JPanel implements ActionListener {
     final static int width = 600,
@@ -17,29 +18,34 @@ public class OperatingPanel extends JPanel implements ActionListener {
     char direction = 'R';
     boolean running = false;
 
-    final Timer timer = new Timer(75, this);
+    Timer timer;
+
+    int appleX, appleY;
+
+    Random random = new Random();
 
     public OperatingPanel() {
         System.out.println("OperatingPanel.OperatingPanel()");
-        setLayout(new GridLayout());
+        new Controller();
+        start();
+        setLayout(new FlowLayout());
         setBackground(Color.WHITE);
         setFocusable(true);
         setPreferredSize(new Dimension(width, height));
-        new Controller();
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        start();
+
         g.setColor(new Color(200, 200, 200));
         for (int i = 0; i < height / tickSize; i++) {
             g.drawLine(i * tickSize, 0, i * tickSize, height);
             g.drawLine(0, i * tickSize, width, i * tickSize);
         }
 
-        g.setColor(Color.BLUE);
         drawSnake(g);
+        drawApple(g);
     }
 
     private void drawSnake(Graphics g) {
@@ -52,6 +58,16 @@ public class OperatingPanel extends JPanel implements ActionListener {
                 g.fillRect(snakeX[i], snakeY[i], tickSize, tickSize);
             }
         }
+    }
+
+    private void drawApple(Graphics g) {
+        g.setColor(Color.RED);
+        g.fillOval(appleX, appleY, tickSize, tickSize);
+    }
+
+    public void setApple() {
+        appleX = random.nextInt((int) (width / tickSize)) * tickSize;
+        appleY = random.nextInt((int) (height / tickSize)) * tickSize;
     }
 
     protected void move() {
@@ -81,7 +97,9 @@ public class OperatingPanel extends JPanel implements ActionListener {
     }
 
     public void start() {
+        setApple();
         running = true;
+        timer = new Timer(80, this);
         timer.start();
     }
 
@@ -118,7 +136,8 @@ public class OperatingPanel extends JPanel implements ActionListener {
         Controller() {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setVisible(true);
-            setResizable(false);
+            setResizable(true);
+            setFocusable(true);
             setTitle("Controller");
             setSize(300, 100);
 
