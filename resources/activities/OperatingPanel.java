@@ -37,20 +37,22 @@ public class OperatingPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        g.setColor(new Color(200, 200, 200));
-        for (int i = 0; i < height / tickSize; i++) {
-            g.drawLine(i * tickSize, 0, i * tickSize, height);
-            g.drawLine(0, i * tickSize, width, i * tickSize);
-        }
-
         Font font = new Font("Times New Roman", Font.BOLD, 25);
-        g.setColor(Color.BLACK);
-        g.setFont(font);
-        g.drawString("Score: " + count, 250, 50);
 
-        drawSnake(g);
-        drawApple(g);
+        if (running) {
+            g.setColor(new Color(200, 200, 200));
+            // for (int i = 0; i < height / tickSize; i++) {
+            // g.drawLine(i * tickSize, 0, i * tickSize, height);
+            // g.drawLine(0, i * tickSize, width, i * tickSize);
+            // }
+            g.setColor(Color.BLACK);
+            g.setFont(font);
+            g.drawString("Score: " + count, 250, 50);
+
+            drawSnake(g);
+            drawApple(g);
+        } else
+            gameOver(g);
     }
 
     private void drawSnake(Graphics g) {
@@ -113,6 +115,19 @@ public class OperatingPanel extends JPanel implements ActionListener {
         running = true;
         timer = new Timer(80, this);
         timer.start();
+    }
+
+    protected void gameOver(Graphics g) {
+        Font font = new Font("Arial", Font.BOLD, 30);
+        g.setColor(Color.red);
+        g.setFont(font);
+
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Score: " + count, (width - metrics2.stringWidth("Score: " + count)) / 2, 50);
+
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        String str = "GAME OVER";
+        g.drawString(str, (width - metrics.stringWidth(str)) / 2, height / 2);
     }
 
     private void setCollision() {
