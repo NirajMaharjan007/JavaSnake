@@ -6,7 +6,7 @@ import java.util.Random;
 public class Obstacle {
     private int width, height, x, y;
     private int size;
-    private Random random = new Random();;
+    private Random random = new Random();
 
     public Obstacle(int width, int height, int size) {
         this.width = width;
@@ -17,6 +17,7 @@ public class Obstacle {
     public void addObstacle(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect(x, y, size, size);
+
     }
 
     public void setObstacle() {
