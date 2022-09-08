@@ -123,7 +123,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
         setApple();
         o.setObstacle();
         running = true;
-        timer = new Timer(80, this);
+        timer = new Timer(90, this);
         timer.start();
     }
 

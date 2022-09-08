@@ -10,6 +10,7 @@ public class MainOperation extends JFrame {
         setVisible(true);
         setResizable(false);
         setFocusable(true);
+        setAlwaysOnTop(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(600, 100);
         add(new OperatingPanel());
