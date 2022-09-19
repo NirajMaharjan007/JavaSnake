@@ -8,6 +8,9 @@ public class Obstacle {
     private int size;
     private Random random = new Random();
 
+    private int w_size = random.nextInt(2, 8),
+            h_size = random.nextInt(2, 8);
+
     public Obstacle(int width, int height, int size) {
         this.width = width;
         this.height = height;
@@ -16,7 +19,10 @@ public class Obstacle {
 
     public void addObstacle(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(x, y, size, size);
+        if (x < width && y > height) {
+            g.fillRect(x, y, size, size);
+        } else
+            g.fillRect(x, y, size * w_size, size * h_size);
 
     }
 
@@ -26,8 +32,19 @@ public class Obstacle {
     }
 
     public boolean isTouchObject(int headX, int headY) {
-        if (headX == x && headY == y)
+        Rectangle ob = new Rectangle(x, y, size * w_size, size * h_size);
+        Rectangle snakeHead = new Rectangle(headX, headY, size, size);
+
+        if (x < width && y > height) {
+            if (headX == x)
+                return true;
+            else if (headY == y)
+                return true;
+        }
+
+        if (snakeHead.intersects(ob))
             return true;
+
         else
             return false;
     }

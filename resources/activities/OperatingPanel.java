@@ -85,6 +85,19 @@ public class OperatingPanel extends JPanel implements ActionListener {
         appleY = random.nextInt((int) (height / tickSize)) * tickSize;
     }
 
+    /*
+     * protected boolean isInsideBody() {
+     * boolean flag = false;
+     * for (int i = 0; i < snakeSize; i++) {
+     * if (snakeX[i] == appleX && snakeY[i] == appleY) {
+     * flag = true;
+     * break;
+     * }
+     * }
+     * return flag;
+     * }
+     */
+
     protected void checkApple() {
         if (snakeX[0] == appleX && snakeY[0] == appleY) {
             setApple();
