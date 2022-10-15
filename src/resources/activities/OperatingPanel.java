@@ -3,6 +3,7 @@ package resources.activities;
 import javax.swing.*;
 
 import resources.activities.obstacle.Obstacle;
+import resources.controller.KeyHandler;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -29,13 +30,17 @@ public class OperatingPanel extends JPanel implements ActionListener {
 
     Obstacle o = new Obstacle(width, height, tickSize);
 
-    public OperatingPanel() {
+    KeyHandler kh = new KeyHandler(this);
 
-        new Controller();
+    public OperatingPanel() {
         start();
         setLayout(new FlowLayout());
         setBackground(Color.WHITE);
+
+        addKeyListener(kh);
+
         setFocusable(true);
+        setRequestFocusEnabled(true);
         setPreferredSize(new Dimension(width, height));
     }
 
@@ -53,7 +58,7 @@ public class OperatingPanel extends JPanel implements ActionListener {
 
             drawSnake(g);
             drawApple(g);
-            o.addObstacle(g);
+            o.addObstacle(g, appleX, appleY);
 
             g.setColor(Color.BLACK);
             g.setFont(font);
@@ -64,6 +69,30 @@ public class OperatingPanel extends JPanel implements ActionListener {
     }
 
     private void drawSnake(Graphics g) {
+        if (running) {
+            if (kh.up == true || kh.down == true || kh.left == true || kh.right == true) {
+                if (kh.up) {
+                    if (direction != 'D')
+                        direction = 'U';
+                }
+
+                if (kh.down) {
+                    if (direction != 'U')
+                        direction = 'D';
+                }
+
+                if (kh.right) {
+                    if (direction != 'L')
+                        direction = 'R';
+                }
+
+                if (kh.left) {
+                    if (direction != 'R')
+                        direction = 'L';
+                }
+            }
+        }
+
         for (int i = 0; i < snakeSize; i++) {
             if (i == 0) {
                 g.setColor(new Color(0, 180, 0));
@@ -189,65 +218,5 @@ public class OperatingPanel extends JPanel implements ActionListener {
             setCollision();
         }
         repaint();
-    }
-
-    protected class Controller extends JFrame {
-        TextField control;
-        JLabel label;
-
-        Controller() {
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setVisible(true);
-            setResizable(true);
-            setFocusable(true);
-            setLocation(new Point(200, 300));
-            setTitle("Controller");
-            setSize(300, 100);
-
-            control = new TextField(10);
-            label = new JLabel("", JLabel.CENTER);
-
-            control.setEditable(false);
-
-            JPanel panel = new JPanel(new GridLayout(2, 1, 5, 5));
-
-            panel.add(control);
-            panel.add(label);
-
-            add(panel);
-
-            control.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent event) {
-                    if (running) {
-                        switch (event.getKeyCode()) {
-                            case KeyEvent.VK_LEFT:
-                                label.setText("Left");
-                                if (direction != 'R')
-                                    direction = 'L';
-                                break;
-
-                            case KeyEvent.VK_RIGHT:
-                                label.setText("Right");
-                                if (direction != 'L')
-                                    direction = 'R';
-                                break;
-
-                            case KeyEvent.VK_UP:
-                                label.setText("Up");
-                                if (direction != 'D')
-                                    direction = 'U';
-                                break;
-
-                            case KeyEvent.VK_DOWN:
-                                label.setText("Down");
-                                if (direction != 'U')
-                                    direction = 'D';
-                                break;
-                        }
-                    }
-                }
-            });
-        }
     }
 }
