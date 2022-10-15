@@ -1,0 +1,35 @@
+{
+    "files.exclude": {
+        "bin": true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "cSpell.words": [
+        "Darcula",
+        "flatlaf",
+        "formdev",
+        "Intelli"
+    ],
+    "java.completion.filteredTypes": [
+        "javax.swing.*",
+        "java.util.*",
+        "java.awt.*",
+        "java.awt.event.*",
+        "com.sun.*",
+        "sun.*",
+        "jdk.*",
+        "org.graalvm.*",
+        "io.micrometer.shaded.*"
+    ]
+}
